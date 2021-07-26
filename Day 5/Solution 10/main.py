@@ -6,7 +6,9 @@ for index, boarding_pass in enumerate(data):
     boarding_pass  = boarding_pass .rstrip("\n")
     data[index] = boarding_pass
 
-highest_seat_id = 0 #base value of the highest seat
+row_list = []
+column_list = []
+seat_list = []
 
 #separate row and column data
 for boarding_pass in data:
@@ -41,11 +43,25 @@ for boarding_pass in data:
     if column_temp[0] == column_temp[1]:
         column_number = int(column_temp[0])
         #print(column_number)
+    seat_list.append([row_number, column_number])
 
-    #calculate the seat id and find the highest one
-    seat_id = row_number*8 + column_number
-    if seat_id > highest_seat_id:
-        highest_seat_id = seat_id
+#sort the list and find the missing seat
+seat_list.sort()
+for index, seat in enumerate(seat_list):
+    if 0 < index < len(seat_list)-1:
+
+        if seat[1] + 1 != seat_list[index+1][1] and seat[0] + 1 != seat_list[index+1][0]:
+            print(seat)
+            if seat[1] != 7:
+                correct_row_column = [int(seat[0]), int(seat[1])+1]
+            else:
+                correct_row_column = [int(seat[0]) + 1, 0]
 
 
-print("Solution:", highest_seat_id)
+
+solution = correct_row_column[0]*8 + correct_row_column[1]
+print("Solution:", solution)
+
+
+
+
